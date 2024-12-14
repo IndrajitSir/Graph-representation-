@@ -14,7 +14,7 @@ interface utilities {
 
 class Graph {
     Map<Integer, List<Integer>> graph;
-    // Map<Integer, Map<Integer, Integer>> weightedGraph;
+    Map<Integer, Map<Integer, Integer>> weightedGraph;
     private int vertex, edges;
 
     Graph(int vertex, int edges) {
@@ -22,14 +22,14 @@ class Graph {
         this.vertex = vertex;
         this.edges = edges;
     }
-    // Graph(int vertex, int edges, boolean weighted){
-    //     this.edges = edges;
-    //     this.vertex = vertex;
-    //     if(!weighted){
-    //         this.graph = new HashMap<>();
-    //     }
-    //     this.weightedGraph = new HashMap<>();
-    // }
+    Graph(int vertex, int edges, boolean weighted){
+        this.edges = edges;
+        this.vertex = vertex;
+        if(!weighted){
+            this.graph = new HashMap<>();
+        }
+        this.weightedGraph = new HashMap<>();
+    }
 
     protected int getVertex() {
         return this.vertex;
@@ -139,61 +139,61 @@ class UndirectedUnweightedGraph extends Graph implements utilities {
     }
 }
 
-// class UndirectedWeightedGraph extends Graph implements utilities {
-//     UndirectedWeightedGraph(int vertex, int edges, boolean weighted) {
-//         super(vertex, edges, weighted);
-//     }
-// 
-//     @Override
-//     public void create() {
-//         System.out.println("Creating...");
-//         Scanner sc = new Scanner(System.in);
-//         System.out.println("Connect edges:");
-// 
-//         for (int i = 0; i < this.getEdges(); i++) {
-//             int u = sc.nextInt();
-//             int v = sc.nextInt();
-//             if (this.graph.containsKey(u)) {
-//                 List<Integer> list = this.graph.get(u);
-//                 if(list.contains(v))
-//                 {
-//                     System.out.println("Already Connected!");
-//                 }
-//                 list.add(v);
-//             }
-//             this.graph.put(u, new LinkedList<>(Arrays.asList(v)));
-            // 
-// 
-//             if (this.graph.containsKey(v)) {
-//                 List<Integer> list = this.graph.get(v);
-//                 if(list.contains(u))
-//                 {
-//                     System.out.println("Already Connected!");
-//                 }
-//                 list.add(u);
-//             }
-//             this.graph.put(v, new LinkedList<>(Arrays.asList(u)));            
-//             System.out.println("Entered");
-//         }
-//         sc.close();
-//     }
-// 
-//     @Override
-//     public String add(int vertex1, int vertex2) {
-//         if (this.graph.containsKey(vertex1)) {
-//             List<Integer> list = this.graph.get(vertex1);
-//             if(list.contains(vertex2))
-//             {
-//                 return new String("Already Connected!");
-//             }
-//             list.add(vertex2);
-//         } else {
-//             // SingleList list = new SingleList();
-//             graph.put(vertex1, new LinkedList<>(Arrays.asList(vertex2)));
-//         }
-//         return new String("added!");
-//     }
-// }
+class UndirectedWeightedGraph extends Graph implements utilities {
+    UndirectedWeightedGraph(int vertex, int edges, boolean weighted) {
+        super(vertex, edges, weighted);
+    }
+
+    @Override
+    public void create() {
+        System.out.println("Creating...");
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Connect edges:");
+
+        for (int i = 0; i < this.getEdges(); i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            if (this.graph.containsKey(u)) {
+                List<Integer> list = this.graph.get(u);
+                if(list.contains(v))
+                {
+                    System.out.println("Already Connected!");
+                }
+                list.add(v);
+            }
+            this.graph.put(u, new LinkedList<>(Arrays.asList(v)));
+            
+
+            if (this.graph.containsKey(v)) {
+                List<Integer> list = this.graph.get(v);
+                if(list.contains(u))
+                {
+                    System.out.println("Already Connected!");
+                }
+                list.add(u);
+            }
+            this.graph.put(v, new LinkedList<>(Arrays.asList(u)));            
+            System.out.println("Entered");
+        }
+        sc.close();
+    }
+
+    @Override
+    public String add(int vertex1, int vertex2) {
+        if (this.graph.containsKey(vertex1)) {
+            List<Integer> list = this.graph.get(vertex1);
+            if(list.contains(vertex2))
+            {
+                return new String("Already Connected!");
+            }
+            list.add(vertex2);
+        } else {
+            // SingleList list = new SingleList();
+            graph.put(vertex1, new LinkedList<>(Arrays.asList(vertex2)));
+        }
+        return new String("added!");
+    }
+}
 
 class Main {
     public static void main(String[] args) {
