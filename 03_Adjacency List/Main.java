@@ -28,14 +28,14 @@ class Graph {
     Graph(int vertex, int edges, boolean weighted) {
         this.edges = edges;
         this.vertex = vertex;
-        // try {
-        //     if (!weighted) {
-        //         throw new Error("Weighted field must be true!");
-        //     }
-        //     this.weightedGraph = new HashMap<>();
-        // } catch (Exception e) {
-        //     e.getMessage();
-        // }
+        try {
+            if (!weighted) {
+                throw new Error("Weighted field must be true!");
+            }
+            this.weightedGraph = new HashMap<>();
+        } catch (Exception e) {
+            e.getMessage();
+        }
     }
 
     protected int getVertex() {
