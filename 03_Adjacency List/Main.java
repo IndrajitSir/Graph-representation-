@@ -16,7 +16,7 @@ interface utilities {
 
 class Graph {
     Map<Integer, List<Integer>> graph;
-    Map<Integer, Map<Integer, Integer>> weightedGraph;
+    Map<Integer, List<Map<Integer, Integer>>> weightedGraph;
     private int vertex, edges;
 
     Graph(int vertex, int edges) {
@@ -34,7 +34,7 @@ class Graph {
             }
             this.weightedGraph = new HashMap<>();
         } catch (Exception e) {
-            e.getMessage();
+            System.out.println(e.getMessage());
         }
     }
 
@@ -48,8 +48,9 @@ class Graph {
 
     void displayWeighted() {
         System.out.println("Graph(graph):");
-        for (Map.Entry<Integer, List<Integer>> s : graph.entrySet()) {
+        for (Map.Entry<Integer, List<Map<Integer, Integer>>> s : weightedGraph.entrySet()) {
             System.out.println(s.getKey() + " -> " + s.getValue());
+
         }
     }
 
@@ -91,6 +92,7 @@ class Graph {
 class UndirectedUnweightedGraph extends Graph implements utilities {
     List<Integer> list1;
     List<Integer> list2;
+
     UndirectedUnweightedGraph(int vertex, int edges) {
         super(vertex, edges);
     }
@@ -134,7 +136,7 @@ class UndirectedUnweightedGraph extends Graph implements utilities {
                 return new String("added!");
             }
             return new String("Already Connected!");
-        } 
+        }
         this.graph.put(vertex1, new LinkedList<>(Arrays.asList(vertex2)));
         this.graph.put(vertex2, new LinkedList<>(Arrays.asList(vertex1)));
         return new String("added!");
@@ -142,12 +144,15 @@ class UndirectedUnweightedGraph extends Graph implements utilities {
 }
 
 class UndirectedWeightedGraph extends Graph implements utilities {
-    Map<Integer,Integer> list1;
-    Map<Integer,Integer> list2;
+    List<Map<Integer, Integer>> list1 = new LinkedList<>();
+    List<Map<Integer, Integer>> list2 = new LinkedList<>();
+    Map<Integer, Integer> temp = new HashMap<>();
+
     UndirectedWeightedGraph(int vertex, int edges, boolean weighted) {
         super(vertex, edges, weighted);
     }
 
+    // @SuppressWarnings("unlikely-arg-type")
     @Override
     public void create() {
         System.out.println("Creating...");
@@ -158,25 +163,20 @@ class UndirectedWeightedGraph extends Graph implements utilities {
             int u = sc.nextInt();
             int v = sc.nextInt();
             int weight = sc.nextInt();
-            if (this.weightedGraph.containsKey(u) && this.weightedGraph.containsKey(v)) {
-                list1 = this.weightedGraph.get(u);
-                list2 = this.weightedGraph.get(v);
-                if (!list1.containsKey(v) && !list2.containsKey(u)) {
-                    list1.put(v, weight);
-                    list2.put(u, weight);
-                    list1 = list2 = null;
-                }
-                System.out.println("Already Connected!");
-            }else{
-                list1 = new HashMap<>();
-                list1.put(v, weight);
+            boolean isConnected = isConnected(u, v, weight);
+            if (!isConnected) {
+                temp.put(v, weight);
+                list1.add(temp);
                 this.weightedGraph.put(u, list1);
+                temp.clear();
 
-                list2 = new HashMap<>();
-                list2.put(u, weight);
+                temp.put(u, weight);
+                list2.add(temp);
                 this.weightedGraph.put(v, list2);
 
-                list1 = list2 = null;
+                list1.clear();
+                list2.clear();
+                temp.clear();
                 System.out.println("Entered");
             }
         }
@@ -189,29 +189,54 @@ class UndirectedWeightedGraph extends Graph implements utilities {
         System.out.println("Enter the weight:");
         int weight = sc.nextInt();
         sc.close();
+        boolean isConnected = isConnected(vertex1, vertex2, weight);
+        if (!isConnected) {
+            temp.put(vertex2, weight);
+            list1.add(temp);
+            temp.clear();
+            weightedGraph.put(vertex1, list1);
+    
+            temp.put(vertex1, weight);
+            list2.add(temp);
+            weightedGraph.put(vertex2, list2);
+    
+            list1.clear();
+            list2.clear();
+            temp.clear();
+            return new String("added!");
+        }
+        return new String("Already Connected!");
+    }
+
+    private boolean isConnected(int vertex1, int vertex2, int weight) {
+        boolean[] arr = new boolean[2];
+        Arrays.fill(arr, false);
+        System.out.println(arr[0] + " and " + arr[1]);
         if (this.weightedGraph.containsKey(vertex1) && this.weightedGraph.containsKey(vertex2)) {
             list1 = this.weightedGraph.get(vertex1);
             list2 = this.weightedGraph.get(vertex2);
-            if(!list1.containsKey(vertex2) && !list2.containsKey(vertex1))
-            {
-                list1.put(vertex2, weight);
-                list2.put(vertex1, weight);
-                list1 = list2 = null;
-                return new String("added!");
+            for (Map<Integer, Integer> map : list1) {
+                if (map.containsKey(vertex2))
+                    arr[0] = true;
             }
-            return new String("Already Connected!");
-            
-        } 
-        list1 = new HashMap<>();
-        list1.put(vertex2, weight);
-        weightedGraph.put(vertex1, list1);
+            for (Map<Integer, Integer> map : list2) {
+                if (map.containsKey(vertex1))
+                    arr[1] = true;
+            }
+            if (!arr[0] && !arr[1]) {
+                temp.put(vertex2, weight);
+                list1.add(temp);
+                temp.clear();
 
-        list2 = new HashMap<>();
-        list2.put(vertex1, weight); 
-        weightedGraph.put(vertex2, list2);
-
-        list1 = list2 = null;
-        return new String("added!");
+                temp.put(vertex1, weight);
+                list2.add(temp);
+                temp.clear();
+                list1.clear();
+                list2.clear();
+            }
+            return true;
+        }
+        return false;
     }
 }
 
@@ -226,7 +251,8 @@ class Main {
         gp.add(2, 3);
         gp.displayUnweighted();
 
-        UndirectedWeightedGraph gp2 = new UndirectedWeightedGraph(vertex, edges, false);
+        // UndirectedWeightedGraph gp2 = new UndirectedWeightedGraph(vertex, edges,
+        // false);
         sc.close();
     }
 
