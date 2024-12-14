@@ -22,13 +22,13 @@ class Graph {
         this.vertex = vertex;
         this.edges = edges;
     }
-    Graph(int vertex, int edges, boolean weighted){
-        this.edges = edges;
-        this.vertex = vertex;
-        if(!weighted){
-            this.graph = new HashMap<>();
-        }
-        this.weightedGraph = new HashMap<>();
+    // Graph(int vertex, int edges, boolean weighted){
+    //     this.edges = edges;
+    //     this.vertex = vertex;
+    //     if(!weighted){
+    //         this.graph = new HashMap<>();
+    //     }
+    //     this.weightedGraph = new HashMap<>();
     }
 
     protected int getVertex() {
