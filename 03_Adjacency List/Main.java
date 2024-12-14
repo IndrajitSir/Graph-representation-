@@ -140,7 +140,7 @@ class UndirectedUnweightedGraph extends Graph implements utilities {
 }
 
 class UndirectedWeightedGraph extends Graph implements utilities {
-    UndirectedWeightedGraph(int vertex, int edges, boolean weighted) {
+    UndirectedWeightedGraph(int vertex, int edges,  boolean weighted) {
         super(vertex, edges, weighted);
     }
 
@@ -153,26 +153,25 @@ class UndirectedWeightedGraph extends Graph implements utilities {
         for (int i = 0; i < this.getEdges(); i++) {
             int u = sc.nextInt();
             int v = sc.nextInt();
-            if (this.graph.containsKey(u)) {
-                List<Integer> list = this.graph.get(u);
-                if(list.contains(v))
+            int weight = sc.nextInt();
+            Map<Integer, Integer> list;
+            Map<Integer, Integer> list2;
+            if (this.weightedGraph.containsKey(u) && this.weightedGraph.containsKey(v)) {
+                list = this.weightedGraph.get(u);
+                list2 = this.weightedGraph.get(v);
+                if(!list.containsKey(v) && !list2.containsKey(u))
                 {
-                    System.out.println("Already Connected!");
+                    list.put(v, weight);
+                    list2.put(u, weight);
                 }
-                list.add(v);
+                System.out.println("Already Connected!");
             }
-            this.graph.put(u, new LinkedList<>(Arrays.asList(v)));
-            
-
-            if (this.graph.containsKey(v)) {
-                List<Integer> list = this.graph.get(v);
-                if(list.contains(u))
-                {
-                    System.out.println("Already Connected!");
-                }
-                list.add(u);
-            }
-            this.graph.put(v, new LinkedList<>(Arrays.asList(u)));            
+            list = new HashMap<>();
+            list.put(v, weight);
+            this.weightedGraph.put(u, list);
+            list2 = new HashMap<>();
+            list2.put(u, weight);
+            this.weightedGraph.put(v, list2);          
             System.out.println("Entered");
         }
         sc.close();
