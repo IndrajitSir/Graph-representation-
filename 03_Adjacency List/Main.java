@@ -28,10 +28,14 @@ class Graph {
     Graph(int vertex, int edges, boolean weighted) {
         this.edges = edges;
         this.vertex = vertex;
-        if (!weighted) {
-            this.graph = new HashMap<>();
-        }
-        this.weightedGraph = new HashMap<>();
+        // try {
+        //     if (!weighted) {
+        //         throw new Error("Weighted field must be true!");
+        //     }
+        //     this.weightedGraph = new HashMap<>();
+        // } catch (Exception e) {
+        //     e.getMessage();
+        // }
     }
 
     protected int getVertex() {
@@ -85,6 +89,8 @@ class Graph {
 }
 
 class UndirectedUnweightedGraph extends Graph implements utilities {
+    List<Integer> list1;
+    List<Integer> list2;
     UndirectedUnweightedGraph(int vertex, int edges) {
         super(vertex, edges);
     }
@@ -98,23 +104,19 @@ class UndirectedUnweightedGraph extends Graph implements utilities {
         for (int i = 0; i < this.getEdges(); i++) {
             int u = sc.nextInt();
             int v = sc.nextInt();
-            if (this.graph.containsKey(u)) { // modification needed
-                List<Integer> list = this.graph.get(u);
-                if (list.contains(v)) {
-                    System.out.println("Already Connected!");
+            if (this.graph.containsKey(u) && this.graph.containsKey(v)) {
+                list1 = this.graph.get(u);
+                list2 = this.graph.get(v);
+                if (!list1.contains(v)) {
+                    list1.add(v);
+                    list2.add(u);
+                    list1 = list2 = null;
                 }
-                list.add(v);
+                System.out.println("Already Connected!");
             }
             this.graph.put(u, new LinkedList<>(Arrays.asList(v)));
-
-            if (this.graph.containsKey(v)) {
-                List<Integer> list = this.graph.get(v);
-                if (list.contains(u)) {
-                    System.out.println("Already Connected!");
-                }
-                list.add(u);
-            }
             this.graph.put(v, new LinkedList<>(Arrays.asList(u)));
+
             System.out.println("Entered");
         }
         sc.close();
@@ -122,22 +124,25 @@ class UndirectedUnweightedGraph extends Graph implements utilities {
 
     @Override
     public String add(int vertex1, int vertex2) {
-        if (this.graph.containsKey(vertex1)) {// modification needed
-            List<Integer> list = this.graph.get(vertex1);
-            if (list.contains(vertex2)) {
-                return new String("Already Connected!");
+        if (this.graph.containsKey(vertex1) && this.graph.containsKey(vertex2)) {
+            list1 = this.graph.get(vertex1);
+            list2 = this.graph.get(vertex2);
+            if (!list1.contains(vertex2) && !list2.contains(vertex1)) {
+                list1.add(vertex2);
+                list2.add(vertex1);
+                list1 = list2 = null;
+                return new String("added!");
             }
-            list.add(vertex2);
-        } else {
-            // SingleList list = new SingleList();
-            graph.put(vertex1, new LinkedList<>(Arrays.asList(vertex2)));
-        }
+            return new String("Already Connected!");
+        } 
+        this.graph.put(vertex1, new LinkedList<>(Arrays.asList(vertex2)));
+        this.graph.put(vertex2, new LinkedList<>(Arrays.asList(vertex1)));
         return new String("added!");
     }
 }
 
 class UndirectedWeightedGraph extends Graph implements utilities {
-    Map<Integer,Integer> list;
+    Map<Integer,Integer> list1;
     Map<Integer,Integer> list2;
     UndirectedWeightedGraph(int vertex, int edges, boolean weighted) {
         super(vertex, edges, weighted);
@@ -154,24 +159,24 @@ class UndirectedWeightedGraph extends Graph implements utilities {
             int v = sc.nextInt();
             int weight = sc.nextInt();
             if (this.weightedGraph.containsKey(u) && this.weightedGraph.containsKey(v)) {
-                list = this.weightedGraph.get(u);
+                list1 = this.weightedGraph.get(u);
                 list2 = this.weightedGraph.get(v);
-                if (!list.containsKey(v) && !list2.containsKey(u)) {
-                    list.put(v, weight);
+                if (!list1.containsKey(v) && !list2.containsKey(u)) {
+                    list1.put(v, weight);
                     list2.put(u, weight);
-                    list = list2 = null;
+                    list1 = list2 = null;
                 }
                 System.out.println("Already Connected!");
             }else{
-                list = new HashMap<>();
-                list.put(v, weight);
-                this.weightedGraph.put(u, list);
+                list1 = new HashMap<>();
+                list1.put(v, weight);
+                this.weightedGraph.put(u, list1);
 
                 list2 = new HashMap<>();
                 list2.put(u, weight);
                 this.weightedGraph.put(v, list2);
 
-                list = list2 = null;
+                list1 = list2 = null;
                 System.out.println("Entered");
             }
         }
@@ -185,27 +190,27 @@ class UndirectedWeightedGraph extends Graph implements utilities {
         int weight = sc.nextInt();
         sc.close();
         if (this.weightedGraph.containsKey(vertex1) && this.weightedGraph.containsKey(vertex2)) {
-            list = this.weightedGraph.get(vertex1);
+            list1 = this.weightedGraph.get(vertex1);
             list2 = this.weightedGraph.get(vertex2);
-            if(!list.containsKey(vertex2) && !list2.containsKey(vertex1))
+            if(!list1.containsKey(vertex2) && !list2.containsKey(vertex1))
             {
-                list.put(vertex2, weight);
+                list1.put(vertex2, weight);
                 list2.put(vertex1, weight);
-                list = list2 = null;
+                list1 = list2 = null;
                 return new String("added!");
             }
             return new String("Already Connected!");
             
         } 
-        list = new HashMap<>();
-        list.put(vertex2, weight);
-        weightedGraph.put(vertex1, list);
+        list1 = new HashMap<>();
+        list1.put(vertex2, weight);
+        weightedGraph.put(vertex1, list1);
 
         list2 = new HashMap<>();
         list2.put(vertex1, weight); 
         weightedGraph.put(vertex2, list2);
 
-        list = list2 = null;
+        list1 = list2 = null;
         return new String("added!");
     }
 }
@@ -220,6 +225,8 @@ class Main {
         gp.create();
         gp.add(2, 3);
         gp.displayUnweighted();
+
+        UndirectedWeightedGraph gp2 = new UndirectedWeightedGraph(vertex, edges, false);
         sc.close();
     }
 
