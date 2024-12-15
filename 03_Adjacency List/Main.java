@@ -91,20 +91,31 @@ class Graph {
                     if (isConnected(vertex1, vertex2)) {
                         List<Map<Integer, Integer>> list = this.weightedGraph.get(vertex1);
                         List<Map<Integer, Integer>> list2 = this.weightedGraph.get(vertex2);
+                        Map<Integer, Integer> removeThisMap = new HashMap<>();
                         // list of maps me se ek map delete krna hai based on map ki key
                         for (Map<Integer, Integer> map : list2) {
                             if (map.containsKey(vertex1)) {
+                                removeThisMap = map;
                                 map.remove(vertex1);
-                                // // Object removeThisMap = map.getClass();
-                                // list2.remove(map);
+                                // Object removeThisMap = map.getClass();
                             }
+                        }
+                        try {
+                            list2.remove(removeThisMap);
+                        } catch (Exception e) {
+                            System.out.println("LocalizedMessage: "+e.getLocalizedMessage() +" Message: "+ e.getMessage() +" StackTrace: "+ e.getStackTrace());
                         }
                         for (Map<Integer, Integer> map : list) {
                             if (map.containsKey(vertex2)) {
+                                removeThisMap = map;
                                 map.remove(vertex2);
-                                // // Object removeThisMap = map.getClass();
-                                // list.remove(map);
+                                // Object removeThisMap = map.getClass();
                             }
+                        }
+                        try {
+                            list.remove(removeThisMap);
+                        } catch (Exception e) {
+                            System.out.println("LocalizedMessage: "+e.getLocalizedMessage() +" Message: "+ e.getMessage() +" StackTrace: "+ e.getStackTrace());
                         }
                         return new String("Done!");
                     }
@@ -302,9 +313,15 @@ class UndirectedWeightedGraph extends Graph implements utilities {
     public String add(int vertex1, int vertex2) {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter the weight:");
-        int weight = sc.nextInt();
-        // int weight = 50;
-        sc.close();
+        int weight=0;
+        try {
+            weight = sc.nextInt();
+            // int weight = 50;
+            
+        } catch (Exception e) {
+            System.out.println(e.getMessage() + e.getStackTrace() + e.getLocalizedMessage());
+            sc.close();
+        }
         try {
             if (vertex1 == vertex2 && this.weightedGraph.containsKey(vertex1)) {
                 list1 = this.weightedGraph.get(vertex1);
@@ -377,7 +394,7 @@ class UndirectedWeightedGraph extends Graph implements utilities {
                 this.weightedGraph.put(vertex2, list2);
                 return new String("Added!");
             }
-        } catch (NullPointerException e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         return new String("Done!");
