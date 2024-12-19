@@ -401,6 +401,93 @@ class UndirectedWeightedGraph extends Graph implements utilities {
     }
 }
 
+class DirectedUnweightedGraph extends Graph implements utilities {
+    List<Integer> list1;
+    List<Integer> list2;
+
+    DirectedUnweightedGraph(int vertex, int edges) {
+        super(vertex, edges);
+    }
+
+    @Override
+    public void create() {
+        System.out.println("Creating...");
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Connect edges:");
+
+        for (int i = 0; i < this.getEdges(); i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            System.out.println(add(u, v));
+            // if (u == v && this.graph.containsKey(u)) {
+            // list1 = this.graph.get(u);
+            // if (!list1.contains(v)) {
+            // list1.add(v);
+            // }
+            // } else if (u == v && !this.graph.containsKey(u)) {
+            // this.graph.put(u, new LinkedList<>(Arrays.asList(v)));
+            // }else if (this.graph.containsKey(u) && this.graph.containsKey(v) && u != v) {
+            // list1 = this.graph.get(u);
+            // list2 = this.graph.get(v);
+            // if (!list1.contains(v)) {
+            // list1.add(v);
+            // list2.add(u);
+            // list1 = list2 = null;
+            // }
+            // System.out.println("Already Connected!");
+            // } else {
+            // this.graph.put(u, new LinkedList<>(Arrays.asList(v)));
+            // this.graph.put(v, new LinkedList<>(Arrays.asList(u)));
+            // }
+
+            System.out.println("DONE!");
+        }
+        sc.close();
+    }
+
+    @Override
+    public String add(int vertex1, int vertex2) {
+        if (vertex1 == vertex2 && this.graph.containsKey(vertex1)) {
+            try {
+                list1 = this.graph.get(vertex1);
+                if (!list1.contains(vertex2)) {
+                    list1.add(vertex2);
+                    return new String("added!");
+                }
+                return new String("Already Connected!");
+            } catch (NullPointerException e) {
+                System.out.println(e.getMessage());
+            }
+        } else if (vertex1 == vertex2 && !this.graph.containsKey(vertex1)) {
+            this.graph.put(vertex1, new LinkedList<>(Arrays.asList(vertex2)));
+        } else if (this.graph.containsKey(vertex1) && vertex1 != vertex2) {
+            try {
+                boolean added = false;
+                list1 = this.graph.get(vertex1) != null ? this.graph.get(vertex1) : null;
+                if (list1 != null && list1.contains(vertex2)) {
+                    return new String("Already Connected!");
+                }
+
+                if (list1 == null) {
+                    this.graph.put(vertex1, new LinkedList<>(Arrays.asList(vertex2)));
+                }
+
+                if (list1 != null && !list1.contains(vertex2)) {
+                    added = list1.add(vertex2);
+                }
+
+                if (added)
+                    return new String("added!");
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        this.graph.put(vertex1, new LinkedList<>(Arrays.asList(vertex2)));
+
+        return new String("added!");
+    }
+}
+
 class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
