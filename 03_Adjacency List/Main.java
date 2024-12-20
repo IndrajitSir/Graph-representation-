@@ -488,6 +488,7 @@ class Main {
     public static void main(String[] args) {
         UndirectedUnweightedGraph gp = new UndirectedUnweightedGraph();
         // gp.create();
+        System.out.println("Graph elements:");
         gp.add(2, 3);
         gp.add(1, 2);
         gp.add(2, 4);
@@ -498,6 +499,7 @@ class Main {
 
         UndirectedWeightedGraph gp2 = new UndirectedWeightedGraph(true);
         // gp2.create();
+        System.out.println("Enter weights for weighted Graph:");
         gp2.add(2, 3);
         gp2.add(1, 2);
         gp2.add(2, 4);
@@ -508,24 +510,26 @@ class Main {
         gp2.remove(2, 3, false, true);
         gp2.displayWeighted();
 
-        GenericGraph<Integer> genericGraph = new GenericGraph<>();
-        genericGraph.add(5, 7);
-        genericGraph.add(2, 3);
-        genericGraph.add(1, 2);
-        genericGraph.add(2, 4);
-        genericGraph.add(1, 3);
-        genericGraph.add(2, 2);
-        genericGraph.add(1, 1);
+        GenericGraph<String> genericGraph = new GenericGraph<>();
+        System.out.println("Generic Graph elements:");
+        genericGraph.add("A", "B");
+        genericGraph.add("A", "C");
+        genericGraph.add("B", "C");
+        genericGraph.add("A", "D");
+        genericGraph.add("C", "D");
+        genericGraph.add("E", "A");
+        genericGraph.add("F", "B");
         genericGraph.displayUnweighted();
 
-        GenericGraph<Integer> genericGraph2 = new GenericGraph<>();
-        genericGraph2.add(4, 5, true);
-        genericGraph2.add(2, 3, true);
-        genericGraph2.add(1, 2, true);
-        genericGraph2.add(2, 4,true);
-        genericGraph2.add(1, 3, true);
-        genericGraph2.add(2, 2,true);
-        genericGraph2.add(1, 1, true);
+        GenericGraph<String> genericGraph2 = new GenericGraph<>(true);
+        System.out.println("Enter weights for Generic weighted Graph:");
+        genericGraph2.add("A", "B", true);
+        genericGraph2.add("A", "C", true);
+        genericGraph2.add("B", "C", true);
+        genericGraph2.add("A", "D",true);
+        genericGraph2.add("C", "D", true);
+        genericGraph2.add("E", "A",true);
+        genericGraph2.add("F", "B", true);
         genericGraph2.displayWeighted();
     }
 
