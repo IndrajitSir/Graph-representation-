@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import Generics.*;
 
 interface utilities {
     void create();
@@ -14,17 +15,12 @@ interface utilities {
 class Graph {
     Map<Integer, List<Integer>> graph;
     Map<Integer, List<Map<Integer, Integer>>> weightedGraph;
-    private int vertex, edges;
 
-    Graph(int vertex, int edges) {
+    Graph() {
         this.graph = new HashMap<>();
-        this.vertex = vertex;
-        this.edges = edges;
     }
 
-    Graph(int vertex, int edges, boolean weighted) {
-        this.edges = edges;
-        this.vertex = vertex;
+    Graph(boolean weighted) {
         try {
             if (!weighted) {
                 throw new Error("Weighted field must be true!");
@@ -33,14 +29,6 @@ class Graph {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-    }
-
-    protected int getVertex() {
-        return this.vertex;
-    }
-
-    protected int getEdges() {
-        return this.edges;
     }
 
     void displayWeighted() {
@@ -103,7 +91,8 @@ class Graph {
                         try {
                             list2.remove(removeThisMap);
                         } catch (Exception e) {
-                            System.out.println("LocalizedMessage: "+e.getLocalizedMessage() +" Message: "+ e.getMessage() +" StackTrace: "+ e.getStackTrace());
+                            System.out.println("LocalizedMessage: " + e.getLocalizedMessage() + " Message: "
+                                    + e.getMessage() + " StackTrace: " + e.getStackTrace());
                         }
                         for (Map<Integer, Integer> map : list) {
                             if (map.containsKey(vertex2)) {
@@ -115,7 +104,8 @@ class Graph {
                         try {
                             list.remove(removeThisMap);
                         } catch (Exception e) {
-                            System.out.println("LocalizedMessage: "+e.getLocalizedMessage() +" Message: "+ e.getMessage() +" StackTrace: "+ e.getStackTrace());
+                            System.out.println("LocalizedMessage: " + e.getLocalizedMessage() + " Message: "
+                                    + e.getMessage() + " StackTrace: " + e.getStackTrace());
                         }
                         return new String("Done!");
                     }
@@ -192,8 +182,8 @@ class UndirectedUnweightedGraph extends Graph implements utilities {
     List<Integer> list1;
     List<Integer> list2;
 
-    UndirectedUnweightedGraph(int vertex, int edges) {
-        super(vertex, edges);
+    UndirectedUnweightedGraph() {
+        super();
     }
 
     @Override
@@ -201,34 +191,15 @@ class UndirectedUnweightedGraph extends Graph implements utilities {
         System.out.println("Creating...");
         Scanner sc = new Scanner(System.in);
         System.out.println("Connect edges:");
-
-        for (int i = 0; i < this.getEdges(); i++) {
+        boolean decision = true;
+        do {
             int u = sc.nextInt();
             int v = sc.nextInt();
             System.out.println(add(u, v));
-            // if (u == v && this.graph.containsKey(u)) {
-            // list1 = this.graph.get(u);
-            // if (!list1.contains(v)) {
-            // list1.add(v);
-            // }
-            // } else if (u == v && !this.graph.containsKey(u)) {
-            // this.graph.put(u, new LinkedList<>(Arrays.asList(v)));
-            // }else if (this.graph.containsKey(u) && this.graph.containsKey(v) && u != v) {
-            // list1 = this.graph.get(u);
-            // list2 = this.graph.get(v);
-            // if (!list1.contains(v)) {
-            // list1.add(v);
-            // list2.add(u);
-            // list1 = list2 = null;
-            // }
-            // System.out.println("Already Connected!");
-            // } else {
-            // this.graph.put(u, new LinkedList<>(Arrays.asList(v)));
-            // this.graph.put(v, new LinkedList<>(Arrays.asList(u)));
-            // }
 
-            System.out.println("DONE!");
-        }
+            System.out.print("Do you want to continue? ( yes (default) / No (N or n))-> ");
+            decision = sc.nextBoolean();
+        } while (decision);
         sc.close();
     }
 
@@ -290,34 +261,35 @@ class UndirectedWeightedGraph extends Graph implements utilities {
     List<Map<Integer, Integer>> list2 = new LinkedList<>();
     Map<Integer, Integer> temp;
 
-    UndirectedWeightedGraph(int vertex, int edges, boolean weighted) {
-        super(vertex, edges, weighted);
+    UndirectedWeightedGraph(boolean weighted) {
+        super(weighted);
     }
 
-    // @SuppressWarnings("unlikely-arg-type")
     @Override
     public void create() {
-        System.out.println("Creating...! you are permitted to enter "+ this.getEdges() +" vertexes(nodes):");
         Scanner sc = new Scanner(System.in);
         System.out.println("Connect edges:");
-
-        for (int i = 0; i < this.getEdges(); i++) {
+        boolean decision = true;
+        do {
             int u = sc.nextInt();
             int v = sc.nextInt();
             System.out.println(add(u, v));
-            sc.close();
-        }
+
+            System.out.print("Do you want to continue? ( yes (default) / No (N or n))-> ");
+            decision = sc.nextBoolean();
+        } while (decision);
+        sc.close();
     }
 
     @Override
     public String add(int vertex1, int vertex2) {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter the weight:");
-        int weight=0;
+        int weight = 0;
         try {
             weight = sc.nextInt();
             // int weight = 50;
-            
+
         } catch (Exception e) {
             System.out.println(e.getMessage() + e.getStackTrace() + e.getLocalizedMessage());
             sc.close();
@@ -405,8 +377,8 @@ class DirectedUnweightedGraph extends Graph implements utilities {
     List<Integer> list1;
     List<Integer> list2;
 
-    DirectedUnweightedGraph(int vertex, int edges) {
-        super(vertex, edges);
+    DirectedUnweightedGraph() {
+        super();
     }
 
     @Override
@@ -414,34 +386,43 @@ class DirectedUnweightedGraph extends Graph implements utilities {
         System.out.println("Creating...");
         Scanner sc = new Scanner(System.in);
         System.out.println("Connect edges:");
-
-        for (int i = 0; i < this.getEdges(); i++) {
+        // for (int i = 0; i < this.getEdges(); i++) {
+        // int u = sc.nextInt();
+        // int v = sc.nextInt();
+        // System.out.println(add(u, v));
+        //
+        // if (u == v && this.graph.containsKey(u)) {
+        // list1 = this.graph.get(u);
+        // if (!list1.contains(v)) {
+        // list1.add(v);
+        // }
+        // } else if (u == v && !this.graph.containsKey(u)) {
+        // this.graph.put(u, new LinkedList<>(Arrays.asList(v)));
+        // }else if (this.graph.containsKey(u) && this.graph.containsKey(v) && u != v) {
+        // list1 = this.graph.get(u);
+        // list2 = this.graph.get(v);
+        // if (!list1.contains(v)) {
+        // list1.add(v);
+        // list2.add(u);
+        // list1 = list2 = null;
+        // }
+        // System.out.println("Already Connected!");
+        // } else {
+        // this.graph.put(u, new LinkedList<>(Arrays.asList(v)));
+        // this.graph.put(v, new LinkedList<>(Arrays.asList(u)));
+        // }
+        //
+        // System.out.println("DONE!");
+        // }
+        boolean decision = true;
+        do {
             int u = sc.nextInt();
             int v = sc.nextInt();
             System.out.println(add(u, v));
-            // if (u == v && this.graph.containsKey(u)) {
-            // list1 = this.graph.get(u);
-            // if (!list1.contains(v)) {
-            // list1.add(v);
-            // }
-            // } else if (u == v && !this.graph.containsKey(u)) {
-            // this.graph.put(u, new LinkedList<>(Arrays.asList(v)));
-            // }else if (this.graph.containsKey(u) && this.graph.containsKey(v) && u != v) {
-            // list1 = this.graph.get(u);
-            // list2 = this.graph.get(v);
-            // if (!list1.contains(v)) {
-            // list1.add(v);
-            // list2.add(u);
-            // list1 = list2 = null;
-            // }
-            // System.out.println("Already Connected!");
-            // } else {
-            // this.graph.put(u, new LinkedList<>(Arrays.asList(v)));
-            // this.graph.put(v, new LinkedList<>(Arrays.asList(u)));
-            // }
 
-            System.out.println("DONE!");
-        }
+            System.out.print("Do you want to continue? ( yes (default) / No (N or n))-> ");
+            decision = sc.nextBoolean();
+        } while (decision);
         sc.close();
     }
 
@@ -490,13 +471,7 @@ class DirectedUnweightedGraph extends Graph implements utilities {
 
 class Main {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter number of vertex and edges:");
-        int vertex = sc.nextInt();
-        int edges = sc.nextInt();
-        // int vertex = 4;
-        // int edges = 5;
-        UndirectedUnweightedGraph gp = new UndirectedUnweightedGraph(vertex, edges);
+        UndirectedUnweightedGraph gp = new UndirectedUnweightedGraph();
         // gp.create();
         gp.add(2, 3);
         gp.add(1, 2);
@@ -506,7 +481,7 @@ class Main {
         gp.add(1, 1);
         gp.displayUnweighted();
 
-        UndirectedWeightedGraph gp2 = new UndirectedWeightedGraph(vertex, edges, true);
+        UndirectedWeightedGraph gp2 = new UndirectedWeightedGraph(true);
         // gp2.create();
         gp2.add(2, 3);
         gp2.add(1, 2);
@@ -517,7 +492,8 @@ class Main {
         gp2.displayWeighted();
         gp2.remove(2, 3, false, true);
         gp2.displayWeighted();
-        sc.close();
+
+
     }
 
 }
