@@ -129,7 +129,7 @@ public class GenericGraph<T> {
         return new String("added!");
     }
 
-    void displayWeighted() {
+    public void displayWeighted() {
         System.out.println("Graph(Adjacency List Weighted)");
         for (Map.Entry<T, List<Map<T, Integer>>> s : weightedGraph.entrySet()) {
             System.out.println(s.getKey() + " -> " + s.getValue());
@@ -141,7 +141,7 @@ public class GenericGraph<T> {
         }
     }
 
-    void displayUnweighted() {
+    public void displayUnweighted() {
         System.out.println("Graph(Adjacency List Unweighted):");
         for (Map.Entry<T, List<T>> s : graph.entrySet()) {
             System.out.println(s.getKey() + " -> " + s.getValue());

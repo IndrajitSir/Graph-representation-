@@ -190,6 +190,7 @@ class UndirectedUnweightedGraph extends Graph implements utilities {
     public void create() {
         System.out.println("Creating...");
         Scanner sc = new Scanner(System.in);
+        Scanner charScanner = new Scanner(System.in);
         System.out.println("Connect edges:");
         boolean decision = true;
         do {
@@ -198,9 +199,13 @@ class UndirectedUnweightedGraph extends Graph implements utilities {
             System.out.println(add(u, v));
 
             System.out.print("Do you want to continue? ( yes (default) / No (N or n))-> ");
-            decision = sc.nextBoolean();
+            String ch = charScanner.nextLine();
+            if(ch.equalsIgnoreCase("n")){
+                decision = false;
+            }
         } while (decision);
         sc.close();
+        charScanner.close();
     }
 
     @Override
@@ -268,6 +273,7 @@ class UndirectedWeightedGraph extends Graph implements utilities {
     @Override
     public void create() {
         Scanner sc = new Scanner(System.in);
+        Scanner charScanner = new Scanner(System.in);
         System.out.println("Connect edges:");
         boolean decision = true;
         do {
@@ -276,9 +282,13 @@ class UndirectedWeightedGraph extends Graph implements utilities {
             System.out.println(add(u, v));
 
             System.out.print("Do you want to continue? ( yes (default) / No (N or n))-> ");
-            decision = sc.nextBoolean();
+            String ch = charScanner.nextLine();
+            if(ch.equalsIgnoreCase("n")){
+                decision = false;
+            }
         } while (decision);
         sc.close();
+        charScanner.close();
     }
 
     @Override
@@ -385,6 +395,7 @@ class DirectedUnweightedGraph extends Graph implements utilities {
     public void create() {
         System.out.println("Creating...");
         Scanner sc = new Scanner(System.in);
+        Scanner charScanner = new Scanner(System.in);
         System.out.println("Connect edges:");
         // for (int i = 0; i < this.getEdges(); i++) {
         // int u = sc.nextInt();
@@ -421,9 +432,13 @@ class DirectedUnweightedGraph extends Graph implements utilities {
             System.out.println(add(u, v));
 
             System.out.print("Do you want to continue? ( yes (default) / No (N or n))-> ");
-            decision = sc.nextBoolean();
+            String ch = charScanner.nextLine();
+            if(ch.equalsIgnoreCase("n")){
+                decision = false;
+            }
         } while (decision);
         sc.close();
+        charScanner.close();
     }
 
     @Override
@@ -493,7 +508,25 @@ class Main {
         gp2.remove(2, 3, false, true);
         gp2.displayWeighted();
 
+        GenericGraph<Integer> genericGraph = new GenericGraph<>();
+        genericGraph.add(5, 7);
+        genericGraph.add(2, 3);
+        genericGraph.add(1, 2);
+        genericGraph.add(2, 4);
+        genericGraph.add(1, 3);
+        genericGraph.add(2, 2);
+        genericGraph.add(1, 1);
+        genericGraph.displayUnweighted();
 
+        GenericGraph<Integer> genericGraph2 = new GenericGraph<>();
+        genericGraph2.add(4, 5, true);
+        genericGraph2.add(2, 3, true);
+        genericGraph2.add(1, 2, true);
+        genericGraph2.add(2, 4,true);
+        genericGraph2.add(1, 3, true);
+        genericGraph2.add(2, 2,true);
+        genericGraph2.add(1, 1, true);
+        genericGraph2.displayWeighted();
     }
 
 }
